@@ -1,10 +1,13 @@
 from time import strptime
 from datetime import datetime, date, time, timedelta
-from django_geckoboard.decorators import number_widget, rag_widget
+from django_geckoboard.decorators import number_widget, rag_widget, funnel
 from django.shortcuts import get_object_or_404
 from django.contrib.sites.models import Site
 from django.contrib.auth.models import User
+from django.db.models import Sum
+
 from jmbocomments.models import UserComment
+from jmboarticles.models import Article
 
 
 def time_comparison(qs, field, days):
@@ -42,3 +45,27 @@ def total_comments(request):
     if days:
         return time_comparison(qs, 'submit_date', days)
     return qs.count()
+
+@number_widget
+def total_page_views(request):
+    """.order_by('-pub_date',
+    Total page views
+    """
+    result = Article.objects.all().aggregate(Sum('view_count'))
+
+    return result['view_count']
+
+@funnel
+def page_views_by_article(request):
+    """
+    Total page views by articles
+    """
+    
+    limit = request.GET.get('limit', 5)
+    all_articles = Article.objects.all().order_by('-view_count')
+    
+    return {
+        "items": [(article.view_count, article.title) for article in all_articles[:limit]],
+        "type": "standard",   # default, 'reverse' changes direction
+                              # of the colors.
+        }
