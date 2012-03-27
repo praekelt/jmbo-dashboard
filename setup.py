@@ -12,7 +12,7 @@ setup(
     author = 'Praekelt Foundation',
     author_email = 'dev@praekeltfoundation.org',
     packages = find_packages(),
-    install_requires = ['setuptools', 'django', 'jmboarticles', 'jmbocomments'],
+    install_requires = ['setuptools', 'django', 'jmbo-articles', 'jmbo-comments'],
     classifiers = [
         'Development Status :: 1 - Beta',
         'Intended Audience :: Developers',
