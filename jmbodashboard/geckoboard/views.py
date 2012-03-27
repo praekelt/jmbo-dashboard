@@ -51,7 +51,7 @@ def total_page_views(request):
     """.order_by('-pub_date',
     Total page views
     """
-    result = Article.objects.all().aggregate(Sum('view_count'))
+    result = Article.objects.all().aggregate(view_count=Sum('view_count'))
 
     return result['view_count']
 
