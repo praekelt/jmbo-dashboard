@@ -68,4 +68,5 @@ def page_views_by_article(request):
         "items": [(article.view_count, article.title) for article in all_articles[:limit]],
         "type": "standard",   # default, 'reverse' changes direction
                               # of the colors.
+        "percentage": "hide",
         }
