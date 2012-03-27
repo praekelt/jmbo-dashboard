@@ -51,7 +51,7 @@ def total_page_views(request):
     """.order_by('-pub_date',
     Total page views
     """
-    result = Article.objects.filter(site=Site.objects.get_current()).aggregate(view_count=Sum('view_count'))
+    result = Article.objects.filter(sites=Site.objects.get_current()).aggregate(view_count=Sum('view_count'))
 
     return result['view_count']
 
@@ -62,7 +62,7 @@ def page_views_by_article(request):
     """
     
     limit = request.GET.get('limit', 5)
-    all_articles = Article.objects.filter(site=Site.objects.get_current()).order_by('-view_count')
+    all_articles = Article.objects.filter(sites=Site.objects.get_current()).order_by('-view_count')
     
     return {
         "items": [(article.view_count, article.title) for article in all_articles[:limit]],
