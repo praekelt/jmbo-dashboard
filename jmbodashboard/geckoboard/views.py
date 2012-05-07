@@ -33,6 +33,19 @@ def total_users_joined(request):
         return time_comparison(qs, 'date_joined', days)
     return qs.count()
 
+@number_widget
+def total_users_active(request):
+    """
+    Total users.
+    """
+    days = request.GET.get('days', None)
+    qs = User.objects.filter(
+        username__startswith=request.GET.get('startswith', ''))
+
+    if days:
+        return time_comparison(qs, 'last_login', days)
+    return qs.count()
+
 
 @number_widget
 def total_comments(request):
